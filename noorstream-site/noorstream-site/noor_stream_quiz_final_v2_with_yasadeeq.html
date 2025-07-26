@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<title>نور استريم - المسابقة الذكية</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo&amp;display=swap" rel="stylesheet"/>
+<style>
+body { margin:0; font-family: 'Cairo', sans-serif; background:#0f2027; color:#fff; }
+
+.header { background: #111; padding: 10px; text-align: center; font-size: 20px; color: gold; }
+.marquee { background: #222; padding: 8px; color: #ffcc00; font-size: 14px; white-space: nowrap; overflow: hidden; }
+.marquee span { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; }
+@keyframes marquee { 0% {transform: translateX(0);} 100% {transform: translateX(-100%);} }
+
+.container { display: flex; justify-content: center; align-items: flex-start; padding:20px; }
+
+.quiz-box { background: #1a1a1a; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #000; width: 400px; margin-left:20px; }
+.quiz-box h2 { text-align:center; color: gold; }
+input[type=text] { width: 90%; padding: 10px; border-radius: 8px; border: none; font-size: 15px; margin-bottom: 10px; }
+button { padding: 10px 20px; background: gold; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition:0.3s; }
+button:hover { background: #ffcc00; }
+
+.participants { background: #111; padding: 15px; border-radius:10px; width:300px; box-shadow:inset 0 0 5px #000; }
+.participants h3 { text-align:center; color:gold; margin-bottom:10px; }
+.participants ul { list-style:none; padding:0; font-size:14px; }
+.participants li { margin:5px 0; border-bottom:1px solid #333; padding-bottom:3px; }
+
+.timer { text-align:center; margin-top:10px; font-size:18px; }
+
+.button-pair { display: flex; justify-content: space-between; width: 100%; margin-top: 10px; }
+.submit-btn, .back-btn-chat {
+    padding: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 48%;
+}
+.submit-btn { background: gold; color: #111; }
+.submit-btn:hover { background: #ffcc00; }
+.back-btn-chat { background: #fff; color: #111; }
+.back-btn-chat:hover { background: #ddd; }
+
+/* الدوران للجوال فقط */
+@media (max-width: 768px) {
+    body {
+        transform: rotate(90deg) translateY(-100vh);
+        transform-origin: top left;
+        width: 100vh;
+        height: 100vw;
+        overflow-x: hidden;
+    }
+}
+</style>
+</head>
+<body>
+<div class="header">🎯 نور استريم - المسابقة الذكية</div>
+<div class="marquee"><span>📢 أهلاً بكم في نور استريم | تابعوا المسابقات والبث المباشر على مدار الساعة 🌟</span></div>
+<div class="container">
+<div class="quiz-box">
+<h2>❓ ما هي عاصمة المملكة العربية السعودية؟</h2>
+<input id="answer" placeholder="اكتب الإجابة..." type="text"/>
+<div class="button-pair">
+<button class="submit-btn" id="submitBtn" onclick="submitAnswer()">📨 إرسال الإجابة</button>
+<button class="back-btn-chat" onclick="location.href='noor_stream_chat_final_name.html'">🔙 العودة للدردشة</button>
+</div>
+<div class="timer" id="quizTimer"></div>
+</div>
+<div class="participants">
+<h3>المشاركين</h3>
+<ul id="participantList"></ul>
+</div>
+</div>
+<script>
+let correct = "الرياض";
+let participants = [];
+let startTime = null;
+let quizActive = false;
+let answerTimeLeft = 20;
+
+function startQuiz(){
+    quizActive = true;
+    startTime = new Date();
+    let quizInterval = setInterval(function(){
+        let timerElem = document.getElementById("quizTimer");
+        timerElem.innerText = "⏳ متبقي للإجابة: " + answerTimeLeft + " ثانية";
+        if(answerTimeLeft <= 5){ timerElem.style.color = "red"; }
+        answerTimeLeft--;
+        if(answerTimeLeft < 0){
+            clearInterval(quizInterval);
+            endQuiz();
+        }
+    }, 1000);
+}
+window.onload = startQuiz;
+
+function submitAnswer(){
+    if(!quizActive){
+        alert("🚫 انتهى وقت الإجابة.");
+        return;
+    }
+    const ans = document.getElementById("answer").value.trim();
+    if(!ans){
+        alert("اكتب الإجابة أولاً");
+        return;
+    }
+    let currentTime = new Date();
+    let timeDiff = Math.floor((currentTime - startTime) / 1000);
+    let fakeName = "مشارك رقم " + (participants.length + 1);
+    participants.push({name: fakeName, answer: ans, time: timeDiff});
+    updateList();
+    document.getElementById("answer").disabled = true;
+    document.getElementById("submitBtn").disabled = true;
+}
+
+function updateList(){
+    let list = document.getElementById("participantList");
+    list.innerHTML = "";
+    participants.forEach((p, index) => {
+        let status = (p.answer === correct) ? "✅" : "❌";
+        list.innerHTML += "<li>" + (index+1) + "- " + p.name + " | " + p.answer + " | " + p.time + "ث " + status + "</li>";
+    });
+}
+
+function endQuiz(){
+    quizActive = false;
+    let winner = participants.find(p => p.answer === correct);
+    if(winner){
+        document.querySelector(".marquee span").innerText = "🏆 مبروك " + winner.name + "! هو الفائز في هذه الجولة.";
+    } else {
+        document.querySelector(".marquee span").innerText = "🚫 لم يجب أحد إجابة صحيحة.";
+    }
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("answer").disabled = true;
+}
+</script>
+
+<!-- مساعد يا صديقي -->
+<div id="yasadeeq-container" style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px; z-index: 9999; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+<iframe frameborder="0" height="100%" src="https://yasadeeq-chat.netlify.app/" width="100%"></iframe>
+</div>
+</body>
+</html>

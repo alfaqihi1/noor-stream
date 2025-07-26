@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>النور المتدفّق</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; font-family: 'Cairo', sans-serif; background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); color: white; }
+header { padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; background: #111; position: sticky; top: 0; }
+.logo-container { border: 3px solid gold; padding: 5px; border-radius: 12px; background: #222; animation: pulse 5s infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+header img { height: 60px; border-radius: 10px; }
+nav { display: flex; gap: 12px; }
+nav a { color: white; text-decoration: none; padding: 10px 16px; background: #1a1a1a; border-radius: 8px; transition: 0.3s; font-size: 16px; display: flex; align-items: center; gap: 5px; }
+nav a:hover { background: gold; color: #111; }
+.main { padding: 60px 20px; text-align: center; }
+.main h1 { font-size: 28px; margin-bottom: 10px; }
+.main p { font-size: 20px; margin-bottom: 25px; }
+.main button { padding: 18px 45px; font-size: 22px; border: none; background: gold; color: #111; border-radius: 10px; cursor: pointer; margin-top: 25px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.main button:hover { transform: scale(1.03); background: #ffdd33; }
+.icons { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+.icon { background: #222; padding: 30px 20px; border-radius: 15px; width: 180px; text-align: center; transition: 0.3s; font-size: 18px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+.icon:hover { background: gold; color: #111; transform: translateY(-5px); }
+.ticker { background: #111; color: gold; padding: 12px; white-space: nowrap; overflow: hidden; font-size: 15px; }
+.ticker span { display: inline-block; padding-left: 100%; animation: ticker 15s linear infinite; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+.modal {
+    display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8); justify-content:center; align-items:center;
+}
+.modal-content {
+    background: #222; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align:center; box-shadow: 0 0 15px #000;
+}
+.modal-content button {
+    padding: 12px 20px; margin: 8px 0; border: none; border-radius: 8px;
+    cursor: pointer; font-size: 16px; width: 90%;
+    background: #2a5298; color: #fff; transition: 0.3s;
+}
+.modal-content button:hover { background: #1e3c72; }
+.notice { font-size: 14px; color: #ffcc00; margin-top: 10px; }
+</style>
+</head>
+<body>
+<header>
+<div class="logo-container"><img src="logo.png" alt="شعار النور المتدفّق"></div>
+<nav>
+<a href="zad.html">زاد المؤمن</a>
+<a href="#" onclick="showLogin()">🎬 الترفيه</a>
+<a href="#" onclick="showLogin()">🎮 الألعاب</a>
+</nav>
+</header>
+
+<div class="ticker"><span>🌟 أهلاً بكم في قناة النور المتدفّق | تلاوات خاشعة - مسابقات معرفية - بث مباشر متواصل | انضموا إلينا الآن!</span></div>
+
+<div class="main">
+<h1>أهلاً بك في نور ستريم 🌟 عالم من الإيمان والمعرفة!</h1>
+<p>منصة تفاعلية تجمع بين الدين، المعرفة، الترفيه، والتفاعل المجتمعي.</p>
+<div id="broadcastArea">
+  <button onclick="startBroadcast()" style="padding: 18px 45px; font-size: 22px; border: none; background: gold; color: #111; border-radius: 10px; cursor: pointer; margin-top: 25px; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">ابدأ البث المباشر 🎥</button>
+</div>
+<div class="icons">
+<div class="icon">🎧<br>استمع الآن</div>
+<div class="icon">📖<br>تعلم جديد</div>
+<div class="icon">🎁<br>شارك وتفاعل</div>
+<div class="icon">🌙<br>قصص وعبر</div>
+</div>
+</div>
+
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h2>تسجيل الدخول</h2>
+    <p>🔔 يمكنك الدخول كزائر ولكن لن تتمتع بكامل مميزات الموقع مثل المسابقات والجوائز.</p>
+    <button onclick="window.location.href='entertainment.html'">🔑 الدخول كعضو</button>
+    <button onclick="window.location.href='entertainment.html'">👤 الدخول كزائر</button>
+    <p class="notice">العضو المسجل يمكنه الدخول لجميع الأقسام - الزائر يمكنه التصفح فقط.</p>
+    <button onclick="closeLogin()">إلغاء</button>
+  </div>
+</div>
+
+<script>
+function showLogin(){
+    document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLogin(){
+    document.getElementById('loginModal').style.display = 'none';
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+function startBroadcast(){
+    document.getElementById('broadcastArea').innerHTML = `
+    <iframe width="360" height="200" src="https://player.restream.io/?token=2123471e69" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="border:2px solid #fff; border-radius:10px;"></iframe>
+    `;
+}
+</script>
+
+</body>
+</html>
